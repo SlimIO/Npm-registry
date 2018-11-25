@@ -14,15 +14,10 @@ class Package {
      */
     constructor(opt) {
         this[META] = opt;
-
-        this._id = opt._id;
-        this._rev = opt._rev;
         this.readme = {
             file: opt.readmeFilename || "",
             content: opt.readme || ""
         };
-
-        console.log(JSON.stringify(opt.versions, null, 2));
     }
 
     /**
