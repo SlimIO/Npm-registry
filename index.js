@@ -185,7 +185,7 @@ class Registry {
         }
 
         // Send the Query
-        const { body } = await got(query.toString(), { json: true });
+        const { body } = await got(query.href, { json: true });
 
         return body;
     }
