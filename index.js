@@ -1,6 +1,5 @@
 // Require Third-party Dependencies
 const got = require("got");
-const semver = require("semver");
 const is = require("@slimio/is");
 
 // Require Internal Dependencies
@@ -65,9 +64,6 @@ class Registry {
 
         let url = `${this.url}/${name}/`;
         if (typeof version === "string") {
-            if (!semver.valid(version)) {
-                throw new Error(`Invalid semver version ${version}`);
-            }
             url = url.concat(version);
         }
 
