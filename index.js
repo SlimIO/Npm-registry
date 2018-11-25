@@ -7,7 +7,8 @@ const Package = require("./src/Package");
 const { clamp } = require("./src/utils");
 
 /**
- * @class registry
+ * @class Registry
+ * @classdesc NPM Registry API Object
  * @property {String} url
  *
  * @author GENTILHOMME Thomas <gentilhomme.thomas@gmail.com>
