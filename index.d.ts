@@ -1,0 +1,86 @@
+/// <reference types="@types/node" />
+
+import { Recoverable } from "repl";
+
+declare class Version {
+
+}
+
+declare class Package {
+    constructor(opt: any);
+
+    version(version: string): Version;
+    tag(tagName: string): string;
+    publishedAt(version: string): Date;
+
+    public readme: {
+        file: string;
+        content: string;
+    };
+    public readonly id: string;
+    public readonly rev: string;
+    public readonly name: string;
+    public readonly description: string;
+    public readonly author: Registry.Human;
+    public readonly maintainers: Registry.Human[];
+    public readonly tags: string[];
+    public readonly lastVersion: string;
+    public readonly versions: string[];
+    public readonly keywords: string[];
+    public readonly createdAt: Date;
+    public readonly updatedAt: Date;
+    public readonly homepage: string;
+    public readonly license: string;
+    public readonly bugsURL: string;
+}
+
+declare class Registry {
+    constructor(url?: string);
+
+    public url: string;
+
+    package(name: string, version?: string): Promise<Package>;
+    metaData(): Promise<Registry.Meta>;
+}
+
+declare namespace Registry {
+
+    interface Meta {
+        db_name: string;
+        doc_count: number;
+        doc_del_count: number;
+        update_seq: number;
+        purge_seq: number;
+        compact_running: boolean;
+        disk_size: number;
+        other: {
+            data_size: number;
+        };
+        data_size: number;
+        sizes: {
+            file: number;
+            active: number;
+            external: number;
+        };
+        instance_start_time: string;
+        disk_format_version: number;
+        committed_update_seq: number;
+        compacted_seq: number;
+        uuid: string;
+    }
+
+    interface Human {
+        name: string;
+        email?: string;
+        url?: string;
+    }
+
+    interface Repository {
+        type: string;
+        url: string
+    }
+
+}
+
+export as namespace Registry;
+export = Registry;
