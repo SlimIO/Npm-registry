@@ -20,11 +20,13 @@ function clamp(property, min, max) {
 /**
  * @class registry
  * @property {String} url
+ *
+ * @author GENTILHOMME Thomas <gentilhomme.thomas@gmail.com>
  */
 class Registry {
     /**
      * @constructor
-     * @param {String=} url registry url
+     * @param {String=} url registry url (default value is Registry.DEFAULT_URL)
      *
      * @throws {TypeError}
      */
@@ -37,9 +39,23 @@ class Registry {
     }
 
     /**
+     * @version 0.1.0
+     *
      * @async
      * @method metaData
+     * @desc API endpoint to get metadata of the given registry URL. Returned value is a Plain Object with all meta data.
      * @returns {Promise<Object>}
+     *
+     * @example
+     * const Registry = require("@slimio/npm-registry");
+     *
+     * async function main() {
+     *     const npmRegistry = new Registry();
+     *     const meta = await npmRegistry.metaData();
+     *     console.log(meta.db_name);
+     *     console.log(meta.doc_count);
+     * }
+     * main().catch(console.error);
      */
     async metaData() {
         const { body } = await got(this.url, { json: true });
@@ -48,14 +64,27 @@ class Registry {
     }
 
     /**
+     * @version 0.1.0
+     *
      * @async
      * @method package
+     * @desc Search a given package by his name (and optionally his version). It will return a new Package instance.
      * @param {!String} name package name
      * @param {String=} version package version (semver)
      * @returns {Promise<Package>}
      *
      * @throws {TypeError}
-     * @throws {Error}
+     *
+     * @example
+     * const Registry = require("@slimio/npm-registry");
+     *
+     * async function main() {
+     *     const npmRegistry = new Registry();
+     *     const ava = await npmRegistry.package("ava");
+     *     console.log(ava.lastVersion);
+     *     console.log(ava.versions);
+     * }
+     * main().catch(console.error);
      */
     async package(name, version) {
         if (typeof name !== "string") {
@@ -66,18 +95,30 @@ class Registry {
         if (typeof version === "string") {
             url = url.concat(version);
         }
-
-        // Request API
         const { body } = await got(url, { json: true });
 
         return new Package(body);
     }
 
     /**
+     * @version 0.1.0
+     *
      * @async
      * @method userPackages
      * @param {!String} userName userName
      * @returns {Promise<any>}
+     *
+     * @throws {TypeError}
+     *
+     * @example
+     * const Registry = require("@slimio/npm-registry");
+     *
+     * async function main() {
+     *     const npmRegistry = new Registry();
+     *     const packages = await npmRegistry.userPackages("fraxken");
+     *     console.log(packages);
+     * }
+     * main().catch(console.error);
      */
     async userPackages(userName) {
         if (typeof userName !== "string") {
@@ -91,13 +132,30 @@ class Registry {
     }
 
     /**
+     * @version 0.1.0
+     *
      * @async
      * @method search
-     * @param {Object} searchOption search options
-     * @param {String} searchOption.text full-text search to apply
-     * @param {Number} searchOption.size how many results should be returned (default 20, max 250)
-     * @param {Number} searchOption.from offset to return results from
+     * @desc Full-text search API
+     * @param {!Object} searchOption search options
+     * @param {String=} searchOption.text full-text search to apply
+     * @param {Number=} searchOption.size how many results should be returned (default 20, max 250)
+     * @param {Number=} searchOption.from offset to return results from
      * @returns {Promise<void>}
+     *
+     * @throws {TypeError}
+     *
+     * @example
+     * const Registry = require("@slimio/npm-registry");
+     *
+     * async function main() {
+     *     const npmRegistry = new Registry();
+     *     const result = await npmRegistry.search({
+     *         text: "author:fraxken"
+     *     });
+     *     console.log(result);
+     * }
+     * main().catch(console.error);
      */
     async search(searchOption) {
         if (!is.plainObject(searchOption)) {
@@ -105,25 +163,28 @@ class Registry {
         }
         const query = new URL(`${this.url}/-/v1/search`);
 
-        if (is.string(searchOption.text)) {
-            query.searchParams.set("text", searchOption.text);
+        // Apply options to the URL
+        const { text, size, from, quality, popularity, maintenance } = searchOption;
+        if (is.string(text)) {
+            query.searchParams.set("text", text);
         }
-        if (is.number(searchOption.size)) {
-            query.searchParams.set("size", clamp(searchOption.size, 0, 250));
+        if (is.number(size)) {
+            query.searchParams.set("size", clamp(size, 0, 250));
         }
-        if (is.number(searchOption.from)) {
-            query.searchParams.set("from", searchOption.from);
+        if (is.number(from)) {
+            query.searchParams.set("from", from);
         }
-        if (is.number(searchOption.quality)) {
-            query.searchParams.set("quality", clamp(searchOption.quality, 0, 1));
+        if (is.number(quality)) {
+            query.searchParams.set("quality", clamp(quality, 0, 1));
         }
-        if (is.number(searchOption.popularity)) {
-            query.searchParams.set("popularity", clamp(searchOption.popularity, 0, 1));
+        if (is.number(popularity)) {
+            query.searchParams.set("popularity", clamp(popularity, 0, 1));
         }
-        if (is.number(searchOption.maintenance)) {
-            query.searchParams.set("maintenance", clamp(searchOption.maintenance, 0, 1));
+        if (is.number(maintenance)) {
+            query.searchParams.set("maintenance", clamp(maintenance, 0, 1));
         }
 
+        // Send the Query
         const { body } = await got(query.toString(), { json: true });
 
         return body;
