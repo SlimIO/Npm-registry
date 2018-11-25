@@ -63,20 +63,10 @@ interface Meta {
     purge_seq: number;
     compact_running: boolean;
     disk_size: number;
-    other: {
-        data_size: number;
-    };
     data_size: number;
-    sizes: {
-        file: number;
-        active: number;
-        external: number;
-    };
     instance_start_time: string;
     disk_format_version: number;
     committed_update_seq: number;
-    compacted_seq: number;
-    uuid: string;
 }
 ```
 
