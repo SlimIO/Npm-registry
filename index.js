@@ -34,6 +34,7 @@ class Registry {
      * @async
      * @method metaData
      * @desc API endpoint to get metadata of the given registry URL. Returned value is a Plain Object with all meta data.
+     * @memberof Registry#
      * @returns {Promise<Object>}
      *
      * @example
@@ -59,6 +60,7 @@ class Registry {
      * @async
      * @method package
      * @desc Search a given package by his name (and optionally his version). It will return a new Package instance.
+     * @memberof Registry#
      * @param {!String} name package name
      * @param {String=} version package version (semver)
      * @returns {Promise<Package>}
@@ -95,6 +97,8 @@ class Registry {
      *
      * @async
      * @method userPackages
+     * @desc Find all packages name and right of a given user.
+     * @memberof Registry#
      * @param {!String} userName userName
      * @returns {Promise<any>}
      *
@@ -127,6 +131,7 @@ class Registry {
      * @async
      * @method search
      * @desc Full-text search API
+     * @memberof Registry#
      * @param {!Object} searchOption search options
      * @param {String=} searchOption.text full-text search to apply
      * @param {Number=} searchOption.size how many results should be returned (default 20, max 250)

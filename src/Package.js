@@ -23,6 +23,7 @@ class Package {
     /**
      * @method version
      * @desc Get a given package version
+     * @memberof Package#
      * @param {!String} version semver version
      * @returns {Version}
      *
@@ -39,6 +40,7 @@ class Package {
     /**
      * @method publishedAt
      * @desc Known the publication date of a given version!
+     * @memberof Package#
      * @param {!String} version semver version
      * @returns {String}
      */
@@ -49,6 +51,7 @@ class Package {
     /**
      * @method tag
      * @desc Get the linked version of a given tag
+     * @memberof Package#
      * @param {!String} tagName tag name
      * @returns {String}
      *
