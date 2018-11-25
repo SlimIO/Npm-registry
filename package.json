@@ -35,7 +35,6 @@
         "@slimio/eslint-config": "^2.0.3",
         "@types/node": "^10.12.10",
         "ava": "^1.0.0-rc.2",
-        "cross-env": "^5.2.0",
         "eslint": "^5.9.0",
         "husky": "^1.2.0",
         "jsdoc": "^3.5.5",
