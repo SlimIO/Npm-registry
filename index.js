@@ -6,6 +6,14 @@ const is = require("@slimio/is")
 // Require Internal Dependencies
 const Package = require("./src/Package");
 
+/**
+ * @function Clamp
+ * @desc Clamp a given number into min and max
+ * @param {!Number} property property
+ * @param {Number} min min
+ * @param {Number} max max
+ * @returns {Number}
+ */
 function clamp(property, min, max) {
     return Math.min(Math.max(property, min), max);
 }
@@ -67,6 +75,23 @@ class Registry {
         const { body } = await got(url, { json: true });
 
         return new Package(body);
+    }
+
+    /**
+     * @async
+     * @method userPackages
+     * @param {!String} userName userName
+     * @returns {Promise<any>}
+     */
+    async userPackages(userName) {
+        if (typeof userName !== "string") {
+            throw new TypeError("userName should be a string");
+        }
+
+        const URL = `${this.url}/-/user/${userName}/package`;
+        const { body } = await got(URL, { json: true });
+
+        return body;
     }
 
     /**

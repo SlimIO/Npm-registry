@@ -45,6 +45,7 @@ declare class Registry {
 
     public url: string;
 
+    userPackages(userName: string): Promise<UserPackages>;
     package(name: string, version?: string): Promise<Package>;
     search(options: SearchOptions): Promise<Registry.SearchResult>;
     metaData(): Promise<Registry.Meta>;
@@ -59,6 +60,10 @@ declare namespace Registry {
         quality?: number;
         popularity?: number;
         maintenance?: number;
+    }
+
+    interface UserPackages {
+        [packageName: string]: "write" | "read";
     }
 
     interface Meta {

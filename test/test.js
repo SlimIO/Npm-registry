@@ -6,6 +6,9 @@ async function main() {
     // const meta = await nReg.metaData();
     // console.log(meta);
 
+    const pkg = await nReg.userPackages("fraxken");
+    console.log(pkg);
+
     const res = await nReg.search({
         text: "author:fraxken"
     });
