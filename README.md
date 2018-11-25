@@ -1,4 +1,4 @@
-# Npm-registry
+# npm-registry
 API created to GET informations from the official [NPM API registry](https://github.com/npm/registry/blob/master/docs/REGISTRY-API.md).
 
 ## Getting Started
