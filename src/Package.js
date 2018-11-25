@@ -6,6 +6,8 @@ const META = Symbol("MetaData");
 
 /**
  * @class Package
+ *
+ * @author GENTILHOMME Thomas <gentilhomme.thomas@gmail.com>
  */
 class Package {
     /**
@@ -21,6 +23,8 @@ class Package {
     }
 
     /**
+     * @version 0.1.0
+     *
      * @method version
      * @desc Get a given package version
      * @memberof Package#
@@ -38,6 +42,8 @@ class Package {
     }
 
     /**
+     * @version 0.1.0
+     *
      * @method publishedAt
      * @desc Known the publication date of a given version!
      * @memberof Package#
@@ -49,6 +55,8 @@ class Package {
     }
 
     /**
+     * @version 0.1.0
+     *
      * @method tag
      * @desc Get the linked version of a given tag
      * @memberof Package#
