@@ -1,6 +1,6 @@
 {
     "name": "@slimio/npm-registry",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "Npm-registry API",
     "main": "index.js",
     "scripts": {
