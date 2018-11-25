@@ -29,7 +29,7 @@ class Registry {
      *
      * @throws {TypeError}
      */
-    constructor(url = Registry.URL) {
+    constructor(url = Registry.DEFAULT_URL) {
         if (typeof url !== "string") {
             throw new TypeError("url should be a string");
         }
@@ -135,6 +135,6 @@ class Registry {
 }
 
 // NPM Registry URL
-Registry.URL = "https://registry.npmjs.org";
+Registry.DEFAULT_URL = "https://registry.npmjs.org";
 
 module.exports = Registry;
