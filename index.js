@@ -35,9 +35,9 @@ class Registry {
      * @returns {Promise<Object>}
      */
     async metaData() {
-        const res = await got(this.url);
+        const { body } = await got(this.url, { json: true });
 
-        return JSON.parse(res.body);
+        return body;
     }
 
     /**
