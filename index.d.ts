@@ -117,6 +117,7 @@ declare namespace Registry {
             version: string;
             description: string;
             date: string;
+            keywords: string[];
             links: {
                 [name: string]: string;
             },
