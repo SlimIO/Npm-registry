@@ -3,6 +3,9 @@
 declare class Version {
     constructor(pkg: Package, opt: any);
 
+    public name: string;
+    public version: string;
+    public readonly description: string;
     public readonly dependencies: Registry.Dependencies;
     public readonly devDependencies: Registry.Dependencies;
     public readonly npmVersion: string;

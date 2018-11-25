@@ -13,6 +13,17 @@ class Version {
     constructor(pkg, opt) {
         this.package = pkg;
         this[META] = opt;
+
+        this.name = opt.name;
+        this.version = opt.version;
+    }
+
+    /**
+     * @property {String} description
+     * @desc Description of the current version
+     */
+    get description() {
+        return this[META].description;
     }
 
     /**
