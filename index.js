@@ -66,6 +66,7 @@ class Registry {
      * @returns {Promise<Package>}
      *
      * @throws {TypeError}
+     * @throws {Error}
      *
      * @example
      * const Registry = require("@slimio/npm-registry");
@@ -87,9 +88,18 @@ class Registry {
         if (typeof version === "string") {
             url = url.concat(version);
         }
-        const { body } = await got(url, { json: true });
 
-        return new Package(body);
+        try {
+            const { body } = await got(url, { json: true });
+
+            return new Package(body);
+        }
+        catch (error) {
+            if (Registry.DEBUG) {
+                console.error(error);
+            }
+            throw new Error(error.body.error);
+        }
     }
 
     /**
@@ -188,5 +198,6 @@ class Registry {
 
 // NPM Registry URL
 Registry.DEFAULT_URL = "https://registry.npmjs.org";
+Registry.DEBUG = false;
 
 module.exports = Registry;
