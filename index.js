@@ -1,7 +1,7 @@
 // Require Third-party Dependencies
 const got = require("got");
 const semver = require("semver");
-const is = require("@slimio/is")
+const is = require("@slimio/is");
 
 // Require Internal Dependencies
 const Package = require("./src/Package");
