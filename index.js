@@ -131,10 +131,18 @@ class Registry {
             throw new TypeError("userName should be a string");
         }
 
-        const URL = `${this.url}/-/user/${userName}/package`;
-        const { body } = await got(URL, { json: true });
+        try {
+            const URL = `${this.url}/-/user/${userName}/package`;
+            const { body } = await got(URL, { json: true });
 
-        return body;
+            return body;
+        }
+        catch (error) {
+            if (Registry.DEBUG) {
+                console.error(error);
+            }
+            throw new Error(error.body.error);
+        }
     }
 
     /**
