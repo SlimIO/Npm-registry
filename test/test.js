@@ -52,14 +52,6 @@ ava("Find a given Package (without version)", async(assert) => {
     assert.is(pkg.name, "@slimio/is");
 });
 
-ava("Search a given Package version", async(assert) => {
-    const reg = new Registry();
-    const ver = await reg.package("ava", "latest");
-
-    assert.true(ver instanceof Version);
-    assert.is(ver.name, "ava");
-});
-
 ava("Search user package(s)", async(assert) => {
     const reg = new Registry();
     const pkgs = await reg.userPackages("zkat");
