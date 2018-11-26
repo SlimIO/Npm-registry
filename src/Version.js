@@ -1,5 +1,5 @@
 // CONSTANTS
-const META = Symbol("MetaData");
+const META = Symbol("meta-data");
 
 /**
  * @class Version
@@ -10,10 +10,32 @@ class Version {
      * @param {*} opt version payload
      */
     constructor(opt) {
-        this[META] = opt;
+        console.log(JSON.stringify(opt, null, 4));
+        Reflect.defineProperty(this, META, {
+            enumerable: false,
+            writable: false,
+            configurable: false,
+            value: opt
+        });
 
         this.name = opt.name;
         this.version = opt.version;
+    }
+
+    /**
+     * @property {String[]} keywords
+     * @desc Keywords of the current version
+     */
+    get keywords() {
+        return this[META].keywords || [];
+    }
+
+    /**
+     * @property {Object} author
+     * @desc Keywords of the current version
+     */
+    get author() {
+        return this[META].author || {};
     }
 
     /**
@@ -37,7 +59,7 @@ class Version {
      * @desc Dependencies of the current version
      */
     get dependencies() {
-        return this[META].dependencies;
+        return this[META].dependencies || {};
     }
 
     /**
@@ -45,7 +67,15 @@ class Version {
      * @desc Dependencies of the current version
      */
     get devDependencies() {
-        return this[META].devDependencies;
+        return this[META].devDependencies || {};
+    }
+
+    /**
+     * @property {*} peerDependencies
+     * @desc peerDependencies of the current version
+     */
+    get peerDependencies() {
+        return this[META].peerDependencies || {};
     }
 
     /**
@@ -77,7 +107,15 @@ class Version {
      * @desc Maintainers of the current version
      */
     get maintainers() {
-        return this[META].maintainers;
+        return this[META].maintainers || [];
+    }
+
+    /**
+     * @property {any[]} contributors
+     * @desc Contributors of the current version
+     */
+    get contributors() {
+        return this[META].contributors || [];
     }
 }
 
