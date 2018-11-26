@@ -4,6 +4,7 @@ const is = require("@slimio/is");
 
 // Require Internal Dependencies
 const Package = require("./src/Package");
+const Version = require("./src/Version");
 const { clamp } = require("./src/utils");
 
 /**
@@ -63,7 +64,7 @@ class Registry {
      * @memberof Registry#
      * @param {!String} name package name
      * @param {String=} version package version (semver)
-     * @returns {Promise<Package>}
+     * @returns {Promise<Package | Version>}
      *
      * @throws {TypeError}
      * @throws {Error}
@@ -84,15 +85,16 @@ class Registry {
             throw new TypeError("name should be a string");
         }
 
+        const verDefined = typeof version === "string";
         let url = `${this.url}/${name}/`;
-        if (typeof version === "string") {
+        if (verDefined) {
             url = url.concat(version);
         }
 
         try {
-            const { body } = await got(url, { json: true });
+            const { body } = await got(new URL(url).href, { json: true });
 
-            return new Package(body);
+            return verDefined ? new Version(void 0, body) : new Package(body);
         }
         catch (error) {
             if (Registry.DEBUG) {

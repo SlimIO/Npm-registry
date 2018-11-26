@@ -46,11 +46,12 @@ declare class Package {
 declare class Registry {
     constructor(url?: string);
 
+    public static DEBUG: boolean;
     public static DEFAULT_URL: string;
     public url: string;
 
     userPackages(userName: string): Promise<UserPackages>;
-    package(name: string, version?: string): Promise<Package>;
+    package(name: string, version?: string): Promise<Package | Version>;
     search(options: SearchOptions): Promise<Registry.SearchResult>;
     metaData(): Promise<Registry.Meta>;
 }
