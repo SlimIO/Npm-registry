@@ -5,13 +5,17 @@ declare class Version {
 
     public name: string;
     public version: string;
+    public readonly keywords: string[];
     public readonly description: string;
     public readonly dependencies: Registry.Dependencies;
     public readonly devDependencies: Registry.Dependencies;
+    public readonly peerDependencies: Registry.Dependencies;
     public readonly npmVersion: string;
     public readonly nodeVersion: string;
+    public readonly author: Registry.Human;
     public readonly npmUser: Registry.Human;
     public readonly maintainers: Registry.Human[];
+    public readonly contributors: Registry.Human[];
     public readonly dist: Registry.Dist;
 }
 
@@ -51,7 +55,8 @@ declare class Registry {
     public url: string;
 
     userPackages(userName: string): Promise<UserPackages>;
-    package(name: string, version?: string): Promise<Package | Version>;
+    package(name: string): Promise<Package>;
+    packageVersion(name: string, version: string): Promise<Version>;
     search(options: SearchOptions): Promise<Registry.SearchResult>;
     metaData(): Promise<Registry.Meta>;
 }
@@ -83,6 +88,11 @@ declare namespace Registry {
         instance_start_time: string;
         disk_format_version: number;
         committed_update_seq: number;
+    }
+
+    interface Bugs {
+        url: string;
+        email?: string;
     }
 
     interface Human {
