@@ -4,7 +4,11 @@ const is = require("@slimio/is");
 
 // Require Internal Dependencies
 const Package = require("../src/Package");
+const Version = require("../src/Version");
 const Registry = require("../index");
+
+// AVAILABLE PKG RIGHT
+const E_RIGHT = new Set(["write", "read"]);
 
 ava("Verify Registry.DEFAULT_URL", (assert) => {
     assert.is(typeof Registry.DEFAULT_URL, "string");
@@ -48,7 +52,33 @@ ava("Find a given Package (without version)", async(assert) => {
     assert.is(pkg.name, "@slimio/is");
 });
 
-ava("Find a unknown Package", async(assert) => {
+ava("Search a given Package version", async(assert) => {
+    const reg = new Registry();
+    const ver = await reg.package("ava", "latest");
+
+    assert.true(ver instanceof Version);
+    assert.is(ver.name, "ava");
+});
+
+ava("Search user package(s)", async(assert) => {
+    const reg = new Registry();
+    const pkgs = await reg.userPackages("zkat");
+
+    assert.true(is.plainObject(pkgs));
+    for (const [key, value] of Object.entries(pkgs)) {
+        assert.true(is.string(key));
+        assert.true(E_RIGHT.has(value));
+    }
+});
+
+ava("Unknown user package(s)", async(assert) => {
+    const reg = new Registry();
+
+    const error = await assert.throwsAsync(reg.userPackages("zbllaaajfouuhh"), Error);
+    assert.is(error.message, "Scope not found");
+});
+
+ava("Unknown Package", async(assert) => {
     const reg = new Registry();
 
     const error = await assert.throwsAsync(reg.package("zbllaaajfouuhh"), Error);
