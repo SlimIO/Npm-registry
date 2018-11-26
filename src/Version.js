@@ -7,11 +7,9 @@ const META = Symbol("MetaData");
 class Version {
     /**
      * @constructor
-     * @param {*} pkg package
      * @param {*} opt version payload
      */
-    constructor(pkg, opt) {
-        this.package = pkg;
+    constructor(opt) {
         this[META] = opt;
 
         this.name = opt.name;

@@ -38,7 +38,7 @@ class Package {
             throw new Error(`Unknown version ${version}`);
         }
 
-        return new Version(this, this[META].versions[version]);
+        return new Version(this[META].versions[version]);
     }
 
     /**

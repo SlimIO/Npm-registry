@@ -92,9 +92,9 @@ class Registry {
         }
 
         try {
-            const { body } = await got(new URL(url).href, { json: true });
+            const { body } = await got(url, { json: true });
 
-            return verDefined ? new Version(void 0, body) : new Package(body);
+            return verDefined ? new Version(body) : new Package(body);
         }
         catch (error) {
             if (Registry.DEBUG) {
