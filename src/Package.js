@@ -2,7 +2,7 @@
 const Version = require("./Version");
 
 // CONSTANTS
-const META = Symbol("MetaData");
+const META = Symbol("meta-data");
 
 /**
  * @class Package
@@ -15,7 +15,13 @@ class Package {
      * @param {*} opt JSON Payload from npm registry
      */
     constructor(opt) {
-        this[META] = opt;
+        Reflect.defineProperty(this, META, {
+            enumerable: false,
+            writable: false,
+            configurable: false,
+            value: opt
+        });
+
         this.readme = {
             file: opt.readmeFilename || "",
             content: opt.readme || ""
