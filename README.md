@@ -174,3 +174,10 @@ Get the publication date of a given version.
 ```js
 const date = pkg.version(pkg.lastVersion);
 ```
+
+## Roadmap
+
+Things to implement:
+- Finish Version implementation
+- [Download API](https://github.com/npm/registry/blob/master/docs/download-counts.md)
+- [Organisation API](https://github.com/npm/registry/blob/master/docs/orgs/memberships.md)
