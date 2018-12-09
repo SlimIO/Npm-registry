@@ -59,6 +59,7 @@ declare class Registry {
     packageVersion(name: string, version: string): Promise<Version>;
     search(options: SearchOptions): Promise<Registry.SearchResult>;
     metaData(): Promise<Registry.Meta>;
+    membership(scope: string, login?: loginOption): Promise<Roster>;
 }
 
 declare namespace Registry {
@@ -74,6 +75,15 @@ declare namespace Registry {
 
     interface UserPackages {
         [packageName: string]: "write" | "read";
+    }
+
+    interface Roster {
+        [username: string]: "developer" | "admin" | "owner"
+    }
+
+    interface loginOption {
+        username: string;
+        password: string;
     }
 
     interface Meta {

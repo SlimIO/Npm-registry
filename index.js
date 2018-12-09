@@ -232,6 +232,53 @@ class Registry {
 
         return body;
     }
+
+    /**
+     * @version 0.1.1
+     *
+     * @async
+     * @method search
+     * @desc Full-text search API
+     * @memberof Registry#
+     * @param {String=} scope scope
+     * @param {Object} login login
+     * @param {String} login.username username
+     * @param {String} login.password password
+     * @returns {Promise<Roster>}
+     */
+    async membership(scope, login) {
+        if (!is.string(scope)) {
+            throw new TypeError("scope param must be typeof <string>");
+        }
+        if (is.nullOrUndefined(login)) {
+            const { body } = await got(`${this.url}/-/org/${scope}/user`, { json: true });
+
+            return body;
+        }
+
+        if (!is.plainObject(login)) {
+            throw new TypeError("login param must be typeof <object>");
+        }
+        if (!is.string(login.username)) {
+            throw new TypeError("login.username param must be typeof <string>");
+        }
+        if (!is.string(login.password)) {
+            throw new TypeError("login.password param must be typeof <string>");
+        }
+
+        let res;
+        try {
+            res = await got(
+                `${this.url}/-/org/${scope}/user`,
+                { auth: `${login.username}:${login.password}`, json: true }
+            );
+
+            return res.body;
+        }
+        catch (err) {
+            throw new Error(err);
+        }
+    }
 }
 
 // NPM Registry URL

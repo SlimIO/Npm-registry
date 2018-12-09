@@ -76,3 +76,42 @@ ava("Unknown Package", async(assert) => {
     const error = await assert.throwsAsync(reg.package("zbllaaajfouuhh"), Error);
     assert.is(error.message, "Not found");
 });
+
+ava("membership() TypeError", async(assert) => {
+    const scope = "npm";
+    const username = "test";
+    const password = "azerty";
+    const reg = new Registry();
+
+    const errors = [];
+    const promises = [];
+
+    promises.push(assert.throwsAsync(reg.membership(10), TypeError));
+    errors.push("scope param must be typeof <string>");
+
+    promises.push(assert.throwsAsync(reg.membership(scope, 10), TypeError));
+    errors.push("login param must be typeof <object>");
+
+    promises.push(assert.throwsAsync(reg.membership(scope, {}), TypeError));
+    errors.push("login.username param must be typeof <string>");
+
+    promises.push(assert.throwsAsync(reg.membership(scope, { username }), TypeError));
+    errors.push("login.password param must be typeof <string>");
+
+    // Real utility ? Make test longer
+    promises.push(assert.throwsAsync(reg.membership(scope, { username, password }), Error));
+    errors.push("HTTPError: Response code 500 (Internal Server Error)");
+
+    const responses = await Promise.all(promises);
+    for (const res of responses) {
+        assert.is(res.message, errors.shift());
+    }
+});
+
+ava("membership()", async(assert) => {
+    const reg = new Registry();
+
+    const npmMembership = await reg.membership("npm");
+    assert.deepEqual(npmMembership, { npm: "owner" });
+    // test with username/password
+});
