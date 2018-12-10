@@ -131,17 +131,12 @@ for (const { package } of objects) {
 }
 ```
 
-### Registery.membership(scope: string, login?: loginOption): Promise< Roster >;
+### Registry.membership(scope: string, login?: loginOption): Promise< Roster >;
 Get memberships of an organisation
 > If the organisation is private, you need to be logged to see memberships.
 ```ts
 interface Roster {
     [username: string]: "developer" | "admin" | "owner"
-}
-
-interface loginOption {
-    username: string;
-    password: string;
 }
 ```
 
@@ -149,14 +144,10 @@ Usage example:
 ```ts
 const reg = new Registry();
 
-const { total, objects } = await reg.search({ text: "author:fraxken" });
-if (total === 0) {
-    console.log(`Total of packages retrieved: ${total}`);
-}
-for (const { package } of objects) {
-    console.log(package.name);
-}
+const { body } = await reg.membership("npm");
+console.log(body);
 ```
+> auth param pattern : `username:password`
 
 ## Package API
 API for Package class.
