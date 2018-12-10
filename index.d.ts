@@ -81,11 +81,6 @@ declare namespace Registry {
         [username: string]: "developer" | "admin" | "owner"
     }
 
-    interface loginOption {
-        username: string;
-        password: string;
-    }
-
     interface Meta {
         db_name: string;
         doc_count: number;

@@ -237,40 +237,31 @@ class Registry {
      * @version 0.1.1
      *
      * @async
-     * @method search
-     * @desc Full-text search API
+     * @method membership
+     * @desc Get memberships of an organisation
      * @memberof Registry#
-     * @param {String=} scope scope
-     * @param {Object} login login
-     * @param {String} login.username username
-     * @param {String} login.password password
+     * @param {String=} scope organisation
+     * @param {String} auth authentication
      * @returns {Promise<Roster>}
      */
-    async membership(scope, login) {
+    async membership(scope, auth) {
         if (!is.string(scope)) {
             throw new TypeError("scope param must be typeof <string>");
         }
-        if (is.nullOrUndefined(login)) {
+        if (is.nullOrUndefined(auth)) {
             const { body } = await got(`${this.url}/-/org/${scope}/user`, { json: true });
 
             return body;
         }
-
-        if (!is.plainObject(login)) {
-            throw new TypeError("login param must be typeof <object>");
-        }
-        if (!is.string(login.username)) {
-            throw new TypeError("login.username param must be typeof <string>");
-        }
-        if (!is.string(login.password)) {
-            throw new TypeError("login.password param must be typeof <string>");
+        if (!is.string(auth)) {
+            throw new TypeError("auth param must be typeof <string>");
         }
 
         let res;
         try {
             res = await got(
                 `${this.url}/-/org/${scope}/user`,
-                { auth: `${login.username}:${login.password}`, json: true }
+                { auth, json: true }
             );
 
             return res.body;

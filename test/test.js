@@ -90,16 +90,10 @@ ava("membership() TypeError", async(assert) => {
     errors.push("scope param must be typeof <string>");
 
     promises.push(assert.throwsAsync(reg.membership(scope, 10), TypeError));
-    errors.push("login param must be typeof <object>");
-
-    promises.push(assert.throwsAsync(reg.membership(scope, {}), TypeError));
-    errors.push("login.username param must be typeof <string>");
-
-    promises.push(assert.throwsAsync(reg.membership(scope, { username }), TypeError));
-    errors.push("login.password param must be typeof <string>");
+    errors.push("auth param must be typeof <string>");
 
     // Real utility ? Make test longer
-    promises.push(assert.throwsAsync(reg.membership(scope, { username, password }), Error));
+    promises.push(assert.throwsAsync(reg.membership(scope, `${username}:${password}`), Error));
     errors.push("HTTPError: Response code 500 (Internal Server Error)");
 
     const responses = await Promise.all(promises);
