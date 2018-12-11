@@ -59,6 +59,15 @@ ava("Find a given Package (without version)", async(assert) => {
     assert.is(pkg.name, "@slimio/is");
 });
 
+ava("Package name must be a string", async(assert) => {
+    const reg = new Registry();
+
+    await assert.throwsAsync(reg.package(10), {
+        instanceOf: TypeError,
+        message: "name must be a string"
+    });
+});
+
 ava("Search user package(s)", async(assert) => {
     const reg = new Registry();
     const pkgs = await reg.userPackages("zkat");

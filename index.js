@@ -81,7 +81,7 @@ class Registry {
      */
     async package(name) {
         if (typeof name !== "string") {
-            throw new TypeError("name should be a string");
+            throw new TypeError("name must be a string");
         }
 
         try {
