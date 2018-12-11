@@ -59,7 +59,7 @@ declare class Registry {
     packageVersion(name: string, version: string): Promise<Version>;
     search(options: SearchOptions): Promise<Registry.SearchResult>;
     metaData(): Promise<Registry.Meta>;
-    membership(scope: string, login?: loginOption): Promise<Roster>;
+    membership(scope: string, auth?: string): Promise<Roster>;
 }
 
 declare namespace Registry {

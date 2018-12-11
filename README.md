@@ -131,7 +131,7 @@ for (const { package } of objects) {
 }
 ```
 
-### Registry.membership(scope: string, login?: loginOption): Promise< Roster >;
+### Registry.membership(scope: string, auth?: string): Promise< Roster >;
 Get memberships of an organisation
 > If the organisation is private, you need to be logged to see memberships.
 ```ts
