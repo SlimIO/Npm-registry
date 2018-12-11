@@ -234,40 +234,34 @@ class Registry {
     }
 
     /**
-     * @version 0.1.1
+     * @version 0.2.0
      *
      * @async
      * @method membership
      * @desc Get memberships of an organisation
      * @memberof Registry#
      * @param {String=} scope organisation
-     * @param {String} auth authentication
+     * @param {String} [auth] authentication
      * @returns {Promise<Roster>}
+     *
+     * @throws {TypeError}
+     * @throws {Error}
      */
     async membership(scope, auth) {
-        if (!is.string(scope)) {
+        if (typeof scope !== "string") {
             throw new TypeError("scope param must be typeof <string>");
         }
-        if (is.nullOrUndefined(auth)) {
-            const { body } = await got(`${this.url}/-/org/${scope}/user`, { json: true });
+
+        try {
+            const { body } = await got(`${this.url}/-/org/${scope}/user`, { auth, json: true });
 
             return body;
         }
-        if (!is.string(auth)) {
-            throw new TypeError("auth param must be typeof <string>");
-        }
-
-        let res;
-        try {
-            res = await got(
-                `${this.url}/-/org/${scope}/user`,
-                { auth, json: true }
-            );
-
-            return res.body;
-        }
         catch (err) {
-            throw new Error(err);
+            if (Registry.DEBUG) {
+                console.error(error);
+            }
+            throw new Error(error.body.error);
         }
     }
 }
