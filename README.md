@@ -136,8 +136,9 @@ for (const { package } of objects) {
 ```
 
 ### Registry.membership(scope: string, auth?: string): Promise< Roster >;
-Get memberships of an organisation
+Get memberships of an organisation. Auth parameter is an optional HTTP Authorization header `username:password`.
 > If the organisation is private, you need to be logged to see memberships.
+
 ```ts
 interface Roster {
     [username: string]: "developer" | "admin" | "owner"
@@ -148,10 +149,11 @@ Usage example:
 ```ts
 const reg = new Registry();
 
-const { body } = await reg.membership("npm");
-console.log(body);
+const members = await reg.membership("npm");
+for (const [username, role] of Object.entries(members)) {
+    console.log(`${username}: ${role}`);
+}
 ```
-> auth param pattern : `username:password`
 
 ## Package API
 API for Package class.
