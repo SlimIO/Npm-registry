@@ -10,7 +10,6 @@ class Version {
      * @param {*} opt version payload
      */
     constructor(opt) {
-        console.log(JSON.stringify(opt, null, 4));
         Reflect.defineProperty(this, META, {
             enumerable: false,
             writable: false,

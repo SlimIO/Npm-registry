@@ -68,6 +68,14 @@ ava("Package name must be a string", async(assert) => {
     });
 });
 
+ava("Find a given Package version", async(assert) => {
+    const reg = new Registry();
+    const ver = await reg.packageVersion("eslint", "5.9.0");
+
+    assert.true(ver instanceof Version);
+    assert.is(ver.name, "eslint");
+});
+
 ava("Search user package(s)", async(assert) => {
     const reg = new Registry();
     const pkgs = await reg.userPackages("zkat");
