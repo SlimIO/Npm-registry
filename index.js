@@ -23,7 +23,7 @@ class Registry {
      */
     constructor(url = Registry.DEFAULT_URL) {
         if (typeof url !== "string") {
-            throw new TypeError("url should be a string");
+            throw new TypeError("url must be a string");
         }
 
         this.url = url;

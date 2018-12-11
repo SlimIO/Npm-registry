@@ -26,6 +26,13 @@ ava("Create a new Registry with a custom URL", (assert) => {
     assert.is(reg.url, customURL);
 });
 
+ava("Registry constructor - url must be a string", (assert) => {
+    const { message } = assert.throws(() => {
+        new Registry(10);
+    }, TypeError);
+    assert.is(message, "url must be a string");
+});
+
 ava("Retrieve Registry metadata", async(assert) => {
     const reg = new Registry();
     const meta = await reg.metaData();
