@@ -51,8 +51,10 @@ declare class Registry {
     constructor(url?: string);
 
     public static DEBUG: boolean;
-    public static DEFAULT_URL: string;
+    public static DEFAULT_URL: "https://registry.npmjs.org";
+    public static DEFAULT_API: "https://api.npmjs.org/";
     public url: string;
+    public api_url: string;
 
     userPackages(userName: string): Promise<UserPackages>;
     package(name: string): Promise<Package>;
@@ -60,9 +62,38 @@ declare class Registry {
     search(options: SearchOptions): Promise<Registry.SearchResult>;
     metaData(): Promise<Registry.Meta>;
     membership(scope: string, auth?: string): Promise<Roster>;
+
+    downloads(packageName: string, options?: { type: "point" } & Registry.DownloadOptions): Promise<Registry.DownloadPoint>;
+    downloads(packageName: string, options?: { type: "range" } & Registry.DownloadOptions): Promise<Registry.DownloadRange>;
+    downloads(packageName: string, options?: Registry.DownloadOptions): Promise<Registry.DownloadPoint | Registry.DownloadRange>;
 }
 
 declare namespace Registry {
+
+    interface DownloadPoint {
+        downloads: number;
+        start: string;
+        end: string;
+        package: string;
+    }
+
+    interface DownloadRow {
+        day: string;
+        downloads: number;
+    }
+
+    interface DownloadRange {
+        downloads: DownloadRow[];
+        start: string;
+        end: string;
+        package: string;
+    }
+
+    type Period = "last-day" | "last-week" | "last-month";
+    interface DownloadOptions {
+        period?: Period;
+        type?: "point" | "range";
+    }
 
     interface SearchOptions {
         text: string;

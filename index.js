@@ -7,10 +7,14 @@ const Package = require("./src/Package");
 const Version = require("./src/Version");
 const { clamp } = require("./src/utils");
 
+// CONSTANTS
+const E_DOWNLOAD_TYPE = new Set(["last-day", "last-week", "last-month"]);
+
 /**
  * @class Registry
  * @classdesc NPM Registry API Object
  * @property {String} url
+ * @property {String} api_url
  *
  * @author GENTILHOMME Thomas <gentilhomme.thomas@gmail.com>
  */
@@ -27,6 +31,7 @@ class Registry {
         }
 
         this.url = url;
+        this.api_url = Registry.DEFAULT_API;
     }
 
     /**
@@ -257,7 +262,51 @@ class Registry {
 
             return body;
         }
-        catch (err) {
+        catch (error) {
+            if (Registry.DEBUG) {
+                console.error(error);
+            }
+            throw new Error(error.body.error);
+        }
+    }
+
+    /**
+     * @version 0.3.0
+     *
+     * @async
+     * @method downloads
+     * @desc Get downloads count for a given period (and eventually a given package).
+     * @memberof Registry#
+     * @param {!String} packageName packageName
+     * @param {Object} [options] options
+     * @returns {Promise<Roster>}
+     *
+     * @throws {TypeError}
+     * @throws {Error}
+     */
+    async downloads(packageName, options = Object.create(null)) {
+        if (!is.string(packageName)) {
+            throw new TypeError("packageName must be a string!");
+        }
+        if (!is.plainObject(options)) {
+            throw new TypeError("options must be a plain object!");
+        }
+
+        // Retrieve options
+        const { period = "last-day", type = "point" } = options;
+        if (!E_DOWNLOAD_TYPE.has(period)) {
+            throw new Error(`Unknown period ${period}`);
+        }
+        if (type !== "point" && type !== "range") {
+            throw new Error("options.type must be equal to <point> or <range>");
+        }
+
+        try {
+            const { body } = await got(`${this.api_url}/downloads/${type}/${period}/${packageName}`, { json: true });
+
+            return body;
+        }
+        catch (error) {
             if (Registry.DEBUG) {
                 console.error(error);
             }
@@ -268,6 +317,7 @@ class Registry {
 
 // NPM Registry URL
 Registry.DEFAULT_URL = "https://registry.npmjs.org";
+Registry.DEFAULT_API = "https://api.npmjs.org/";
 Registry.DEBUG = false;
 
 module.exports = Registry;
