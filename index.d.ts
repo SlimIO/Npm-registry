@@ -56,14 +56,14 @@ declare class Registry {
     public url: string;
     public api_url: string;
 
-    userPackages(userName: string): Promise<UserPackages>;
+    userPackages(userName: string): Promise<Registry.UserPackages>;
 
     package(name: string): Promise<Package>;
     package(name: string, version: string): Promise<Version>;
     package(name: string, version?: string): Promise<Package | Version>;
-    search(options: SearchOptions): Promise<Registry.SearchResult>;
+    search(options: Registry.SearchOptions): Promise<Registry.SearchResult>;
     metaData(): Promise<Registry.Meta>;
-    membership(scope: string, auth?: string): Promise<Roster>;
+    membership(scope: string, auth?: string): Promise<Registry.Roster>;
 
     downloads(packageName: string, options?: { type: "point" } & Registry.DownloadOptions): Promise<Registry.DownloadPoint>;
     downloads(packageName: string, options?: { type: "range" } & Registry.DownloadOptions): Promise<Registry.DownloadRange>;
