@@ -155,6 +155,24 @@ for (const [username, role] of Object.entries(members)) {
 }
 ```
 
+### Registry.downloads(packageName: string, options?: DownloadOptions): Promise< DownloadPoint | DownloadRange >
+Get npm downloads counts in a given range. Options is described by the following interface:
+```ts
+type Period = "last-day" | "last-week" | "last-month";
+interface DownloadOptions {
+    period?: Period;
+    type?: "point" | "range";
+}
+```
+
+Example, retrieve the downloads count for `express` in the last-month:
+```js
+const { downloads } = await reg.downloads("express", { period: "last-month" });
+console.log(downloads);
+```
+
+The returned value will depend on the type `point` or `range`. Default type is **point**.
+
 ## Package API
 API for Package class.
 
