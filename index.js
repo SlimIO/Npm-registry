@@ -68,7 +68,8 @@ class Registry {
      * @desc Search a given package by his name (and optionally his version). It will return a new Package instance.
      * @memberof Registry#
      * @param {!String} name package name
-     * @returns {Promise<Package>}
+     * @param {String} [version] package version
+     * @returns {Promise<Package | Version>}
      *
      * @throws {TypeError}
      * @throws {Error}
@@ -84,50 +85,16 @@ class Registry {
      * }
      * main().catch(console.error);
      */
-    async package(name) {
+    async package(name, version) {
         if (typeof name !== "string") {
             throw new TypeError("name must be a string");
         }
+        const verDefined = is.string(version);
 
         try {
-            const { body } = await got(`${this.url}/${name}/`, { json: true });
+            const { body } = await got(`${this.url}/${name}/${verDefined ? version : ""}`, { json: true });
 
-            return new Package(body);
-        }
-        catch (error) {
-            if (Registry.DEBUG) {
-                console.error(error);
-            }
-            throw new Error(error.body.error);
-        }
-    }
-
-    /**
-     * @version 0.1.0
-     *
-     * @async
-     * @method packageVersion
-     * @desc Search a given package version.
-     * @memberof Registry#
-     * @param {!String} name package name
-     * @param {!String} version package version
-     * @returns {Promise<Version>}
-     *
-     * @throws {TypeError}
-     * @throws {Error}
-     */
-    async packageVersion(name, version) {
-        if (typeof name !== "string") {
-            throw new TypeError("name should be a string");
-        }
-        if (typeof version !== "string") {
-            throw new TypeError("version should be a string");
-        }
-
-        try {
-            const { body } = await got(`${this.url}/${name}/${version}`, { json: true });
-
-            return new Version(body);
+            return verDefined ? new Version(body) : new Package(body);
         }
         catch (error) {
             if (Registry.DEBUG) {

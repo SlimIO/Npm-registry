@@ -57,8 +57,10 @@ declare class Registry {
     public api_url: string;
 
     userPackages(userName: string): Promise<UserPackages>;
+
     package(name: string): Promise<Package>;
-    packageVersion(name: string, version: string): Promise<Version>;
+    package(name: string, version: string): Promise<Version>;
+    package(name: string, version?: string): Promise<Package | Version>;
     search(options: SearchOptions): Promise<Registry.SearchResult>;
     metaData(): Promise<Registry.Meta>;
     membership(scope: string, auth?: string): Promise<Roster>;
