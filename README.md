@@ -220,8 +220,3 @@ const date = pkg.version(pkg.lastVersion);
 ## Licence
 MIT
 
-## Roadmap
-
-- Implement more test(s)
-- Finish Version implementation
-- [Download API](https://github.com/npm/registry/blob/master/docs/download-counts.md)
