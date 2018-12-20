@@ -1,6 +1,6 @@
 {
     "name": "@slimio/npm-registry",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "description": "Node.js API to consume npm Registry",
     "main": "index.js",
     "scripts": {
