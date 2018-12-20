@@ -1,7 +1,7 @@
 {
     "name": "@slimio/npm-registry",
     "version": "0.3.0",
-    "description": "Npm-registry API",
+    "description": "Node.js API to consume npm Registry",
     "main": "index.js",
     "scripts": {
         "prepublishOnly": "pkg-ok",
@@ -16,7 +16,9 @@
     },
     "keywords": [
         "SlimIO",
-        "monitoring"
+        "npm",
+        "registry",
+        "node api"
     ],
     "author": "SlimIO",
     "license": "MIT",
