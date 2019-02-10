@@ -9,6 +9,8 @@
 
 API created to GET informations from the official [NPM API registry](https://github.com/npm/registry/blob/master/docs/REGISTRY-API.md).
 
+> ⛔️ You may need to consider the following package before: [libnpm](https://github.com/npm/libnpm#readme)
+
 ## Getting Started
 
 This package is available in the Node Package Repository and can be easily installed with [npm](https://docs.npmjs.com/getting-started/what-is-npm) or [yarn](https://yarnpkg.com).
