@@ -1,7 +1,9 @@
 # npm-registry
+
+![version](https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/SlimIO/npm-registry/master/package.json&query=$.version&label=Version)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/SlimIO/Npm-registry/commit-activity)
 ![MIT](https://img.shields.io/github/license/mashape/apistatus.svg)
-![V1.0](https://img.shields.io/badge/version-0.3.0-blue.svg)
+![2DEP](https://img.shields.io/badge/Dependencies-2-yellow.svg)
 [![Build Status](https://travis-ci.com/SlimIO/Npm-registry.svg?branch=master)](https://travis-ci.com/SlimIO/Npm-registry)
 
 API created to GET informations from the official [NPM API registry](https://github.com/npm/registry/blob/master/docs/REGISTRY-API.md).
@@ -218,6 +220,6 @@ Get the publication date of a given version.
 const date = pkg.version(pkg.lastVersion);
 ```
 
-## Licence
+## License
 MIT
 
