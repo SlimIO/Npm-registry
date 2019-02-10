@@ -2,6 +2,7 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/SlimIO/Npm-registry/commit-activity)
 ![MIT](https://img.shields.io/github/license/mashape/apistatus.svg)
 ![V1.0](https://img.shields.io/badge/version-0.3.0-blue.svg)
+[![Build Status](https://travis-ci.com/SlimIO/Npm-registry.svg?branch=master)](https://travis-ci.com/SlimIO/Npm-registry)
 
 API created to GET informations from the official [NPM API registry](https://github.com/npm/registry/blob/master/docs/REGISTRY-API.md).
 
