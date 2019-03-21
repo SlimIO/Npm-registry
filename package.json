@@ -27,7 +27,7 @@
     },
     "homepage": "https://github.com/SlimIO/npm-registry#readme",
     "dependencies": {
-        "@slimio/is": "^1.4.0",
+        "@slimio/is": "^1.5.0",
         "httpie": "^1.1.1"
     },
     "devDependencies": {
