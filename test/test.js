@@ -91,14 +91,14 @@ ava("Unknown user package(s)", async(assert) => {
     const reg = new Registry();
 
     const error = await assert.throwsAsync(reg.userPackages("zbllaaajfouuhh"), Error);
-    assert.is(error.message, "Scope not found");
+    assert.is(error.message, "Not Found");
 });
 
 ava("Unknown Package", async(assert) => {
     const reg = new Registry();
 
     const error = await assert.throwsAsync(reg.package("zbllaaajfouuhh"), Error);
-    assert.is(error.message, "Not found");
+    assert.is(error.message, "Not Found");
 });
 
 ava("membership() - scope must be a string", async(assert) => {

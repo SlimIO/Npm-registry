@@ -1,6 +1,6 @@
 // Require Third-party Dependencies
-const got = require("got");
 const is = require("@slimio/is");
+const { get } = require("httpie");
 
 // Require Internal Dependencies
 const Package = require("./src/Package");
@@ -55,9 +55,7 @@ class Registry {
      * main().catch(console.error);
      */
     async metaData() {
-        const { body } = await got(this.url, { json: true });
-
-        return body;
+        return (await get(this.url)).data;
     }
 
     /**
@@ -92,7 +90,7 @@ class Registry {
         const verDefined = is.string(version);
 
         try {
-            const { body } = await got(`${this.url}/${name}/${verDefined ? version : ""}`, { json: true });
+            const { data: body } = await get(`${this.url}/${name}/${verDefined ? version : ""}`);
 
             return verDefined ? new Version(body) : new Package(body);
         }
@@ -100,7 +98,7 @@ class Registry {
             if (Registry.DEBUG) {
                 console.error(error);
             }
-            throw new Error(error.body.error);
+            throw new Error(error.message);
         }
     }
 
@@ -132,8 +130,7 @@ class Registry {
         }
 
         try {
-            const URL = `${this.url}/-/user/${userName}/package`;
-            const { body } = await got(URL, { json: true });
+            const { data: body } = await get(`${this.url}/-/user/${userName}/package`);
 
             return body;
         }
@@ -141,7 +138,7 @@ class Registry {
             if (Registry.DEBUG) {
                 console.error(error);
             }
-            throw new Error(error.body.error);
+            throw new Error(error.message);
         }
     }
 
@@ -200,9 +197,7 @@ class Registry {
         }
 
         // Send the Query
-        const { body } = await got(query.href, { json: true });
-
-        return body;
+        return (await get(query.href)).data;
     }
 
     /**
@@ -225,7 +220,11 @@ class Registry {
         }
 
         try {
-            const { body } = await got(`${this.url}/-/org/${scope}/user`, { auth, json: true });
+            const headers = {};
+            if (is.string(auth)) {
+                headers.Authorization = `Basic ${Buffer.from(auth).toString("base64")}`;
+            }
+            const { data: body } = await get(`${this.url}/-/org/${scope}/user`, { headers });
 
             return body;
         }
@@ -233,7 +232,8 @@ class Registry {
             if (Registry.DEBUG) {
                 console.error(error);
             }
-            throw new Error(error.body.error);
+
+            throw new Error(error.message);
         }
     }
 
@@ -269,7 +269,7 @@ class Registry {
         }
 
         try {
-            const { body } = await got(`${this.api_url}/downloads/${type}/${period}/${packageName}`, { json: true });
+            const { data: body } = await get(`${this.api_url}/downloads/${type}/${period}/${packageName}`);
 
             return body;
         }
@@ -277,7 +277,7 @@ class Registry {
             if (Registry.DEBUG) {
                 console.error(error);
             }
-            throw new Error(error.body.error);
+            throw new Error(error.message);
         }
     }
 }
