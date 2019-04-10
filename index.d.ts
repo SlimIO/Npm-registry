@@ -1,5 +1,3 @@
-/// <reference types="@types/node" />
-
 declare class Version {
     constructor(pkg: Package, opt: any);
 
