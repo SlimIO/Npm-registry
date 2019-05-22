@@ -222,7 +222,7 @@ class Registry {
         try {
             const headers = {};
             if (is.string(auth)) {
-                headers.Authorization = `Basic ${Buffer.from(auth).toString("base64")}`;
+                headers.Authorization = `Basic ${auth.toString("base64")}`;
             }
             const { data: body } = await get(`${this.url}/-/org/${scope}/user`, { headers });
 

@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 // Require Third-party Dependencies
 const ava = require("ava");
 const is = require("@slimio/is");
@@ -125,4 +127,11 @@ ava("membership() of npm and sindresorhus organisation", async(assert) => {
 
     const sindreMemberShip = await reg.membership("sindresorhus");
     assert.deepEqual(sindreMemberShip, { sindresorhus: "owner" });
+});
+
+ava("membership() of npm  organisation with Auhentication", async(assert) => {
+    const reg = new Registry();
+
+    const npmMemberShip = await reg.membership("npm", process.env.NPM_AUTH);
+    assert.deepEqual(npmMemberShip, { npm: "owner" });
 });
