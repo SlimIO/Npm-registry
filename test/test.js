@@ -87,6 +87,13 @@ ava("Search user package(s)", async(assert) => {
     }
 });
 
+ava("userPackages() => userName should be a string", async(assert) => {
+    const reg = new Registry();
+
+    const error = await assert.throwsAsync(reg.userPackages(10), TypeError);
+    assert.is(error.message, "userName should be a string");
+});
+
 ava("Unknown user package(s)", async(assert) => {
     const reg = new Registry();
 
