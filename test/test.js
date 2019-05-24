@@ -108,8 +108,33 @@ ava("Find a given Package (without version)", async(assert) => {
     assert.true(is.string(pkg.tag("latest")));
 });
 
-ava("Find a given Package (Version)", async(assert) => {
+ava("Find a given Package with login TypeError", async(assert) => {
+    const reg = new Registry();
 
+    assert.throws(() => {
+        reg.login(10);
+    }, { instanceOf: Error, message: "auth param must be a typeof string" });
+});
+
+ava("Find a given Package with login AUTH", async(assert) => {
+    const reg = new Registry();
+    reg.login(process.env.NPM_AUTH);
+    const pkg = await reg.package("@slimio/core");
+    reg.logout();
+
+    assert.true(pkg instanceof Package);
+});
+
+ava("Find a given Package with login TOKEN", async(assert) => {
+    const reg = new Registry();
+    reg.login(process.env.NPM_TOKEN);
+    const pkg = await reg.package("@slimio/core");
+    reg.logout();
+
+    assert.true(pkg instanceof Package);
+});
+
+ava("Find a given Package (Version)", async(assert) => {
     const reg = new Registry();
     const pkg = await reg.package("@slimio/is");
 
