@@ -95,6 +95,35 @@ interface Meta {
 ```
 </details>
 
+<details><summary>login(auth: string): void</summary>
+<br/>
+
+Initialize header Authorization
+
+```js
+const reg = new Registry()
+
+reg.login("username:password");
+// or
+reg.login("token");
+// use API
+```
+</details>
+
+<details><summary>logout(auth: string): void</summary>
+<br/>
+
+Remove header Authorization
+
+```js
+const reg = new Registry()
+
+reg.login("username:password");
+// use API
+npmRegistry.logout();
+```
+</details>
+
 <details><summary>package(packageName: string, version?: string): Promise< Package ></summary>
 <br/>
 
