@@ -61,6 +61,8 @@ declare class Registry {
     package(name: string, version?: string): Promise<Package | Version>;
     search(options: Registry.SearchOptions): Promise<Registry.SearchResult>;
     metaData(): Promise<Registry.Meta>;
+    login(auth: string): void;
+    logout(): void;
     membership(scope: string, auth?: string): Promise<Registry.Roster>;
 
     downloads(packageName: string, options?: { type: "point" } & Registry.DownloadOptions): Promise<Registry.DownloadPoint>;
