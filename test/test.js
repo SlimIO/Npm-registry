@@ -9,6 +9,8 @@ const Package = require("../src/Package");
 const Version = require("../src/Version");
 const Registry = require("../index");
 
+const invalidePacakgeName = "zbllaaajfouuhh";
+
 // AVAILABLE PKG RIGHT
 const E_RIGHT = new Set(["write", "read"]);
 
@@ -99,23 +101,28 @@ ava("userPackages() => userName should be a string", async(assert) => {
 ava("Unknown user package(s)", async(assert) => {
     const reg = new Registry();
 
-    const error = await assert.throwsAsync(reg.userPackages("zbllaaajfouuhh"), Error);
+    const error = await assert.throwsAsync(reg.userPackages(invalidePacakgeName), Error);
     assert.is(error.message, "Not Found");
 });
 
 ava("Unknown Package", async(assert) => {
     const reg = new Registry();
 
-    const error = await assert.throwsAsync(reg.package("zbllaaajfouuhh"), Error);
+    const error = await assert.throwsAsync(reg.package(invalidePacakgeName), Error);
     assert.is(error.message, "Not Found");
 });
 
-ava("membership() - scope must be a string", async(assert) => {
+ava("membership() - TypeError - Error", async(assert) => {
     const reg = new Registry();
 
     await assert.throwsAsync(reg.membership(10), {
         instanceOf: TypeError,
         message: "scope param must be typeof <string>"
+    });
+
+    await assert.throwsAsync(reg.membership(invalidePacakgeName), {
+        instanceOf: Error,
+        message: "Not Found"
     });
 });
 
@@ -135,3 +142,100 @@ ava("membership() of npm  organisation with Auhentication", async(assert) => {
     const npmMemberShip = await reg.membership("npm", process.env.NPM_AUTH);
     assert.deepEqual(npmMemberShip, { npm: "owner" });
 });
+
+ava("search() TypeError", async(assert) => {
+    const reg = new Registry();
+
+    await assert.throwsAsync(reg.search(10), {
+        instanceOf: TypeError,
+        message: "searchOption should be a plainObject"
+    });
+});
+
+ava("search() with empty searchOption", async(assert) => {
+    const reg = new Registry();
+
+    const search = await reg.search({});
+    assert.is(search.objects.length, 0);
+    assert.deepEqual(search.objects, []);
+    assert.is(search.total, 0);
+});
+
+ava("search() search text", async(assert) => {
+    const reg = new Registry();
+
+    const search = await reg.search({ text: "sindresorhus" });
+    assert.not(search.objects.length, 0);
+    assert.not(search.total, 0);
+});
+
+ava("search() search full options", async(assert) => {
+    const reg = new Registry();
+
+    const search = await reg.search({
+        text: "sindresorhus",
+        size: 5,
+        from: 1,
+        quality: 1,
+        popularity: 1,
+        maintenance: 1
+    });
+    assert.not(search.objects.length, 0);
+    assert.not(search.total, 0);
+});
+
+ava("downloads() TypeError", async(assert) => {
+    const reg = new Registry();
+
+    await assert.throwsAsync(reg.downloads(10), {
+        instanceOf: TypeError,
+        message: "packageName must be a string!"
+    });
+
+    await assert.throwsAsync(reg.downloads("@slimio/is", 10), {
+        instanceOf: TypeError,
+        message: "options must be a plain object!"
+    });
+});
+
+ava("downloads() Error", async(assert) => {
+    const reg = new Registry();
+
+    await assert.throwsAsync(reg.downloads("@slimio/is", { period: "test" }), {
+        instanceOf: Error,
+        message: "Unknown period test"
+    });
+
+    await assert.throwsAsync(reg.downloads("@slimio/is", { type: "test" }), {
+        instanceOf: Error,
+        message: "options.type must be equal to <point> or <range>"
+    });
+
+    await assert.throwsAsync(reg.downloads(invalidePacakgeName), {
+        instanceOf: Error,
+        message: "Not Found"
+    });
+});
+
+ava("downloads()", async(assert) => {
+    const reg = new Registry();
+    const data = await reg.downloads("@slimio/is");
+
+    const keys = Object.keys(data);
+    assert.deepEqual(keys, ["downloads", "start", "end", "package"]);
+});
+
+// ava.after("Registry DEBUG true", async(assert) => {
+//     Registry.DEBUG = true;
+//     const reg = new Registry();
+//     const FUNC_DEBUG = ["downloads", "membership", "userPackages", "package"];
+
+//     /* eslint-disable-next-line */
+//     await Promise.all(FUNC_DEBUG.map((func) => {
+//         return assert.throwsAsync(reg[func](invalidePacakgeName), {
+//             instanceOf: Error,
+//             message: "Not Found"
+//         });
+//     }));
+// });
+
