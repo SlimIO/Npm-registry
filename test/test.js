@@ -119,7 +119,7 @@ ava("Find a given Package with login TypeError", async(assert) => {
 ava("Find a given Package with login AUTH", async(assert) => {
     const reg = new Registry();
     reg.login(process.env.NPM_AUTH);
-    const pkg = await reg.package("@slimio/core");
+    const pkg = await reg.package("@slimio/error");
     reg.logout();
 
     assert.true(pkg instanceof Package);
@@ -128,7 +128,7 @@ ava("Find a given Package with login AUTH", async(assert) => {
 ava("Find a given Package with login TOKEN", async(assert) => {
     const reg = new Registry();
     reg.login(process.env.NPM_TOKEN);
-    const pkg = await reg.package("@slimio/core");
+    const pkg = await reg.package("@slimio/error");
     reg.logout();
 
     assert.true(pkg instanceof Package);
