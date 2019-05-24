@@ -32,6 +32,45 @@ class Registry {
 
         this.url = url;
         this.api_url = Registry.DEFAULT_API;
+
+        this.headers = Object.create(null);
+    }
+
+    /**
+     * @version 0.4.0
+     *
+     * @method login
+     * @desc Initialize header Authorization
+     * @memberof Registry#
+     * @param {String} auth string token or authentication
+     *
+     * @return {void}
+     *
+     * @throw {TypeError}
+     */
+    login(auth) {
+        if (!is.string(auth)) {
+            throw new TypeError("auth param must be a typeof string");
+        }
+
+        if (auth.split(":")[1] === undefined) {
+            Reflect.set(this.headers, "Authorization", `Bearer ${auth}`);
+        }
+        else {
+            Reflect.set(this.headers, "Authorization", `Basic ${Buffer.from(auth).toString("base64")}`);
+        }
+    }
+
+    /**
+     * @version 0.4.0
+     *
+     * @method logout
+     * @desc Remove header Authorization
+     * @memberof Registry#
+     * @return {void}
+     */
+    logout() {
+        Reflect.deleteProperty(this.headers, "Authorization");
     }
 
     /**
@@ -90,7 +129,7 @@ class Registry {
         const verDefined = is.string(version);
 
         try {
-            const { data: body } = await get(`${this.url}/${name}/${verDefined ? version : ""}`);
+            const { data: body } = await get(`${this.url}/${name}/${verDefined ? version : ""}`, { headers: this.headers });
 
             return verDefined ? new Version(body) : new Package(body);
         }
@@ -130,7 +169,7 @@ class Registry {
         }
 
         try {
-            const { data: body } = await get(`${this.url}/-/user/${userName}/package`);
+            const { data: body } = await get(`${this.url}/-/user/${userName}/package`, { headers: this.headers });
 
             return body;
         }
@@ -197,7 +236,7 @@ class Registry {
         }
 
         // Send the Query
-        return (await get(query.href)).data;
+        return (await get(query.href, { headers: this.headers })).data;
     }
 
     /**
@@ -224,7 +263,7 @@ class Registry {
             if (is.string(auth)) {
                 headers.Authorization = `Basic ${auth.toString("base64")}`;
             }
-            const { data: body } = await get(`${this.url}/-/org/${scope}/user`, { headers });
+            const { data: body } = await get(`${this.url}/-/org/${scope}/user`, { headers: this.headers });
 
             return body;
         }
@@ -269,7 +308,7 @@ class Registry {
         }
 
         try {
-            const { data: body } = await get(`${this.api_url}/downloads/${type}/${period}/${packageName}`);
+            const { data: body } = await get(`${this.api_url}/downloads/${type}/${period}/${packageName}`, { headers: this.headers });
 
             return body;
         }
