@@ -5,11 +5,12 @@ const ava = require("ava");
 const is = require("@slimio/is");
 
 // Require Internal Dependencies
+const { clamp } = require("../src/utils");
 const Package = require("../src/Package");
 const Version = require("../src/Version");
 const Registry = require("../index");
 
-const invalidePacakgeName = "zbllaaajfouuhh";
+const invalidePackageName = "zbllaaajfouuhh";
 
 // AVAILABLE PKG RIGHT
 const E_RIGHT = new Set(["write", "read"]);
@@ -55,14 +56,6 @@ ava("Retrieve Registry metadata", async(assert) => {
     assert.true(is.number(meta.committed_update_seq));
 });
 
-ava("Find a given Package (without version)", async(assert) => {
-    const reg = new Registry();
-    const pkg = await reg.package("@slimio/is");
-
-    assert.true(pkg instanceof Package);
-    assert.is(pkg.name, "@slimio/is");
-});
-
 ava("Package name must be a string", async(assert) => {
     const reg = new Registry();
 
@@ -70,6 +63,78 @@ ava("Package name must be a string", async(assert) => {
         instanceOf: TypeError,
         message: "name must be a string"
     });
+});
+
+ava("Find a given Package (without version)", async(assert) => {
+    const reg = new Registry();
+    const pkg = await reg.package("@slimio/is");
+
+    assert.true(pkg instanceof Package);
+
+    assert.is(pkg.id, "@slimio/is");
+    assert.is(pkg.rev, "7-b83d7365f60e72a18fe171c34b1d6ba6");
+    assert.not(pkg.versions.length, 0);
+    assert.is(pkg.name, "@slimio/is");
+    assert.is(pkg.description, "SlimIO is (JavaScript Primitives &amp; Objects type checker)");
+
+    assert.true(pkg.createdAt instanceof Date);
+    assert.true(pkg.updatedAt instanceof Date);
+
+    assert.true(is.array(pkg.maintainers));
+    assert.not(pkg.maintainers.length, 0);
+
+    assert.deepEqual(pkg.author, { name: "SlimIO" });
+    assert.true(is.string(pkg.lastVersion));
+    assert.deepEqual(pkg.tags, ["latest"]);
+    assert.deepEqual(pkg.keywords, [
+        "is", "typecheck", "check", "checking",
+        "typeof", "instanceof", "validate",
+        "node", "test", "assert", "assertion"
+    ]);
+    assert.is(pkg.homepage, "https://github.com/SlimIO/is#readme");
+    assert.is(pkg.license, "MIT");
+    assert.is(pkg.bugsURL, "https://github.com/SlimIO/is/issues");
+
+    assert.throws(() => {
+        pkg.version(10);
+    }, { instanceOf: Error, message: "Unknown version 10" });
+
+    assert.true(pkg.publishedAt(pkg.version) instanceof Date);
+
+    assert.throws(() => {
+        pkg.tag(10);
+    }, { instanceOf: Error, message: "Unknown tag with name 10" });
+
+    assert.true(is.string(pkg.tag("latest")));
+});
+
+ava("Find a given Package (Version)", async(assert) => {
+
+    const reg = new Registry();
+    const pkg = await reg.package("@slimio/is");
+
+    const version = pkg.version("1.5.0");
+
+    assert.deepEqual(version.keywords, [
+        "is", "typecheck", "check", "checking",
+        "typeof", "instanceof", "validate",
+        "node", "test", "assert", "assertion"
+    ]);
+    assert.deepEqual(version.author, { name: "SlimIO" });
+    assert.is(version.description, "SlimIO is (JavaScript Primitives &amp; Objects type checker)");
+    assert.deepEqual(
+        Object.keys(version.dist),
+        ["integrity", "shasum", "tarball", "fileCount", "unpackedSize", "npm-signature"]
+    );
+    assert.true(is.plainObject(version.dependencies));
+    assert.true(is.plainObject(version.devDependencies));
+    assert.true(is.plainObject(version.peerDependencies));
+    assert.is(version.npmVersion, "6.7.0");
+    assert.is(version.nodeVersion, "11.10.0");
+    assert.deepEqual(Object.keys(version.npmUser), ["name", "email"]);
+    assert.true(is.array(version.maintainers));
+    assert.not(version.maintainers.length, 0);
+    assert.true(is.array(version.contributors));
 });
 
 ava("Find a given Package version", async(assert) => {
@@ -101,14 +166,14 @@ ava("userPackages() => userName should be a string", async(assert) => {
 ava("Unknown user package(s)", async(assert) => {
     const reg = new Registry();
 
-    const error = await assert.throwsAsync(reg.userPackages(invalidePacakgeName), Error);
+    const error = await assert.throwsAsync(reg.userPackages(invalidePackageName), Error);
     assert.is(error.message, "Not Found");
 });
 
 ava("Unknown Package", async(assert) => {
     const reg = new Registry();
 
-    const error = await assert.throwsAsync(reg.package(invalidePacakgeName), Error);
+    const error = await assert.throwsAsync(reg.package(invalidePackageName), Error);
     assert.is(error.message, "Not Found");
 });
 
@@ -120,7 +185,7 @@ ava("membership() - TypeError - Error", async(assert) => {
         message: "scope param must be typeof <string>"
     });
 
-    await assert.throwsAsync(reg.membership(invalidePacakgeName), {
+    await assert.throwsAsync(reg.membership(invalidePackageName), {
         instanceOf: Error,
         message: "Not Found"
     });
@@ -211,7 +276,7 @@ ava("downloads() Error", async(assert) => {
         message: "options.type must be equal to <point> or <range>"
     });
 
-    await assert.throwsAsync(reg.downloads(invalidePacakgeName), {
+    await assert.throwsAsync(reg.downloads(invalidePackageName), {
         instanceOf: Error,
         message: "Not Found"
     });
@@ -225,6 +290,13 @@ ava("downloads()", async(assert) => {
     assert.deepEqual(keys, ["downloads", "start", "end", "package"]);
 });
 
+ava("utils clamp() TypeError", async(assert) => {
+    assert.throws(() => {
+        clamp("");
+    }, { instanceOf: TypeError, message: "property should be typeof number" });
+});
+
+
 // ava.after("Registry DEBUG true", async(assert) => {
 //     Registry.DEBUG = true;
 //     const reg = new Registry();
@@ -232,7 +304,7 @@ ava("downloads()", async(assert) => {
 
 //     /* eslint-disable-next-line */
 //     await Promise.all(FUNC_DEBUG.map((func) => {
-//         return assert.throwsAsync(reg[func](invalidePacakgeName), {
+//         return assert.throwsAsync(reg[func](invalidePackageName), {
 //             instanceOf: Error,
 //             message: "Not Found"
 //         });
