@@ -46,7 +46,19 @@ class Registry {
      *
      * @return {void}
      *
-     * @throw {TypeError}
+     * @throws {TypeError}
+     *
+     * @example
+     * const Registry = require("@slimio/npm-registry");
+     *
+     * async function main() {
+     *     const npmRegistry = new Registry();
+     *     npmRegistry.login("username:password");
+     *     // or
+     *     npmRegistry.login("token");
+     *     // use API
+     * }
+     * main().catch(console.error);
      */
     login(auth) {
         if (!is.string(auth)) {
@@ -67,7 +79,19 @@ class Registry {
      * @method logout
      * @desc Remove header Authorization
      * @memberof Registry#
+     *
      * @return {void}
+     *
+     * @example
+     * const Registry = require("@slimio/npm-registry");
+     *
+     * async function main() {
+     *     const npmRegistry = new Registry();
+     *     npmRegistry.login("username:password");
+     *     // use API
+     *     npmRegistry.logout();
+     * }
+     * main().catch(console.error);
      */
     logout() {
         Reflect.deleteProperty(this.headers, "Authorization");
