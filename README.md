@@ -291,6 +291,13 @@ const date = pkg.version(pkg.lastVersion);
 ```
 </details>
 
+## Dependencies
+
+|Name|Refactoring|Security Risk|Usage|
+|---|---|---|---|
+|[@slimio/is](https://github.com/SlimIO/is#readme)|Minor|Low|TBC|
+|[httpie](https://github.com/lukeed/httpie#readme)|Minor|Low|TBC|
+
 ## License
 MIT
 
