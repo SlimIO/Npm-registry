@@ -120,7 +120,7 @@ const reg = new Registry()
 
 reg.login("username:password");
 // use API
-npmRegistry.logout();
+reg.logout();
 ```
 </details>
 
