@@ -5,7 +5,9 @@
 ![MIT](https://img.shields.io/github/license/mashape/apistatus.svg)
 ![DEP](https://img.shields.io/david/SlimIO/Npm-registry.svg)
 ![size](https://img.shields.io/bundlephobia/min/@slimio/npm-registry.svg?style=flat)
-[![Build Status](https://travis-ci.com/SlimIO/Npm-registry.svg?branch=master)](https://travis-ci.com/SlimIO/Npm-registry) [![Greenkeeper badge](https://badges.greenkeeper.io/SlimIO/Npm-registry.svg)](https://greenkeeper.io/)
+[![Known Vulnerabilities](https://snyk.io/test/github/SlimIO/npm-registry/badge.svg?targetFile=package.json)](https://snyk.io/test/github/SlimIO/npm-registry?targetFile=package.json)
+[![Build Status](https://travis-ci.com/SlimIO/Npm-registry.svg?branch=master)](https://travis-ci.com/SlimIO/Npm-registry)
+[![Greenkeeper badge](https://badges.greenkeeper.io/SlimIO/Npm-registry.svg)](https://greenkeeper.io/)
 
 API created to GET informations from the official [NPM API registry](https://github.com/npm/registry/blob/master/docs/REGISTRY-API.md).
 
