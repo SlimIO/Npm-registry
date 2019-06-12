@@ -28,7 +28,7 @@
     "homepage": "https://github.com/SlimIO/npm-registry#readme",
     "dependencies": {
         "@slimio/is": "^1.5.1",
-        "httpie": "^1.1.1"
+        "httpie": "^1.1.2"
     },
     "devDependencies": {
         "@commitlint/cli": "^8.0.0",
