@@ -72,7 +72,7 @@ ava("Find a given Package (without version)", async(assert) => {
     assert.true(pkg instanceof Package);
 
     assert.is(pkg.id, "@slimio/is");
-    assert.is(pkg.rev, "7-b83d7365f60e72a18fe171c34b1d6ba6");
+    assert.true(typeof pkg.rev === "string");
     assert.not(pkg.versions.length, 0);
     assert.is(pkg.name, "@slimio/is");
     assert.is(pkg.description, "SlimIO is (JavaScript Primitives &amp; Objects type checker)");
