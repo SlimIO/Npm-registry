@@ -1,12 +1,11 @@
+"use strict";
+
 // CONSTANTS
 const META = Symbol("meta-data");
 
-/**
- * @class Version
- */
 class Version {
     /**
-     * @constructor
+     * @class Version
      * @param {*} opt version payload
      */
     constructor(opt) {
@@ -22,24 +21,27 @@ class Version {
     }
 
     /**
-     * @property {String[]} keywords
-     * @desc Keywords of the current version
+     * @property {string[]} keywords
+     * @description Keywords of the current version
+     * @returns {string[]}
      */
     get keywords() {
         return this[META].keywords || [];
     }
 
     /**
-     * @property {Object} author
-     * @desc Keywords of the current version
+     * @property {object} author
+     * @description Keywords of the current version
+     * @returns {object}
      */
     get author() {
         return this[META].author || {};
     }
 
     /**
-     * @property {String} description
-     * @desc Description of the current version
+     * @property {string} description
+     * @description Description of the current version
+     * @returns {string}
      */
     get description() {
         return this[META].description;
@@ -47,7 +49,8 @@ class Version {
 
     /**
      * @property {*} dist
-     * @desc Version dist
+     * @description Version dist
+     * @returns {*}
      */
     get dist() {
         return this[META].dist;
@@ -55,7 +58,8 @@ class Version {
 
     /**
      * @property {*} dependencies
-     * @desc Dependencies of the current version
+     * @description Dependencies of the current version
+     * @returns {*}
      */
     get dependencies() {
         return this[META].dependencies || {};
@@ -63,7 +67,8 @@ class Version {
 
     /**
      * @property {*} devDependencies
-     * @desc Dependencies of the current version
+     * @description Dependencies of the current version
+     * @returns {*}
      */
     get devDependencies() {
         return this[META].devDependencies || {};
@@ -71,23 +76,26 @@ class Version {
 
     /**
      * @property {*} peerDependencies
-     * @desc peerDependencies of the current version
+     * @description peerDependencies of the current version
+     * @returns {*}
      */
     get peerDependencies() {
         return this[META].peerDependencies || {};
     }
 
     /**
-     * @property {String} npmVersion
-     * @desc version of npm when published
+     * @property {string} npmVersion
+     * @description version of npm when published
+     * @returns {string}
      */
     get npmVersion() {
         return this[META]._npmVersion;
     }
 
     /**
-     * @property {String} nodeVersion
-     * @desc version of Node.js when published
+     * @property {string} nodeVersion
+     * @description version of Node.js when published
+     * @returns {string}
      */
     get nodeVersion() {
         return this[META]._nodeVersion;
@@ -95,7 +103,8 @@ class Version {
 
     /**
      * @property {*} npmUser
-     * @desc User npm who has published the current version
+     * @description User npm who has published the current version
+     * @returns {*}
      */
     get npmUser() {
         return this[META]._npmUser;
@@ -103,7 +112,8 @@ class Version {
 
     /**
      * @property {any[]} maintainers
-     * @desc Maintainers of the current version
+     * @description Maintainers of the current version
+     * @returns {any[]}
      */
     get maintainers() {
         return this[META].maintainers || [];
@@ -111,7 +121,8 @@ class Version {
 
     /**
      * @property {any[]} contributors
-     * @desc Contributors of the current version
+     * @description Contributors of the current version
+     * @returns {any[]}
      */
     get contributors() {
         return this[META].contributors || [];

@@ -1,3 +1,5 @@
+"use strict";
+
 // Require Third-party Dependencies
 const is = require("@slimio/is");
 const { get } = require("httpie");
@@ -13,15 +15,15 @@ const E_DOWNLOAD_TYPE = new Set(["last-day", "last-week", "last-month"]);
 /**
  * @class Registry
  * @classdesc NPM Registry API Object
- * @property {String} url
- * @property {String} api_url
+ * @property {string} url
+ * @property {string} api_url
  *
  * @author GENTILHOMME Thomas <gentilhomme.thomas@gmail.com>
  */
 class Registry {
     /**
-     * @constructor
-     * @param {String=} url registry url (default value is Registry.DEFAULT_URL)
+     * @class
+     * @param {string} [url] registry url (default value is Registry.DEFAULT_URL)
      *
      * @throws {TypeError}
      */
@@ -39,12 +41,12 @@ class Registry {
     /**
      * @version 0.4.0
      *
-     * @method login
-     * @desc Initialize header Authorization
+     * @function login
+     * @description Initialize header Authorization
      * @memberof Registry#
-     * @param {String} auth string token or authentication
+     * @param {string} auth string token or authentication
      *
-     * @return {void}
+     * @returns {void}
      *
      * @throws {TypeError}
      *
@@ -76,11 +78,11 @@ class Registry {
     /**
      * @version 0.4.0
      *
-     * @method logout
-     * @desc Remove header Authorization
+     * @function logout
+     * @description Remove header Authorization
      * @memberof Registry#
      *
-     * @return {void}
+     * @returns {void}
      *
      * @example
      * const Registry = require("@slimio/npm-registry");
@@ -101,10 +103,10 @@ class Registry {
      * @version 0.1.0
      *
      * @async
-     * @method metaData
-     * @desc API endpoint to get metadata of the given registry URL. Returned value is a Plain Object with all meta data.
+     * @function metaData
+     * @description API endpoint to get metadata of the given registry URL. Returned value is a Plain Object with all meta data.
      * @memberof Registry#
-     * @returns {Promise<Object>}
+     * @returns {Promise<object>}
      *
      * @example
      * const Registry = require("@slimio/npm-registry");
@@ -125,11 +127,11 @@ class Registry {
      * @version 0.1.0
      *
      * @async
-     * @method package
-     * @desc Search a given package by his name (and optionally his version). It will return a new Package instance.
+     * @function package
+     * @description Search a given package by his name (and optionally his version). It will return a new Package instance.
      * @memberof Registry#
-     * @param {!String} name package name
-     * @param {String} [version] package version
+     * @param {!string} name package name
+     * @param {string} [version] package version
      * @returns {Promise<Package | Version>}
      *
      * @throws {TypeError}
@@ -169,10 +171,10 @@ class Registry {
      * @version 0.1.0
      *
      * @async
-     * @method userPackages
-     * @desc Find all packages name and right of a given user.
+     * @function userPackages
+     * @description Find all packages name and right of a given user.
      * @memberof Registry#
-     * @param {!String} userName userName
+     * @param {!string} userName userName
      * @returns {Promise<any>}
      *
      * @throws {TypeError}
@@ -209,13 +211,13 @@ class Registry {
      * @version 0.1.0
      *
      * @async
-     * @method search
-     * @desc Full-text search API
+     * @function search
+     * @description Full-text search API
      * @memberof Registry#
-     * @param {!Object} searchOption search options
-     * @param {String=} searchOption.text full-text search to apply
-     * @param {Number=} searchOption.size how many results should be returned (default 20, max 250)
-     * @param {Number=} searchOption.from offset to return results from
+     * @param {!object} searchOption search options
+     * @param {string} [searchOption.text] full-text search to apply
+     * @param {number} [searchOption.size] how many results should be returned (default 20, max 250)
+     * @param {number} [searchOption.from] offset to return results from
      * @returns {Promise<void>}
      *
      * @throws {TypeError}
@@ -267,11 +269,11 @@ class Registry {
      * @version 0.2.0
      *
      * @async
-     * @method membership
-     * @desc Get memberships of an organisation
+     * @function membership
+     * @description Get memberships of an organisation
      * @memberof Registry#
-     * @param {String=} scope organisation
-     * @param {String} [auth] authentication
+     * @param {string} [scope] organisation
+     * @param {string} [auth] authentication
      * @returns {Promise<Roster>}
      *
      * @throws {TypeError}
@@ -304,11 +306,11 @@ class Registry {
      * @version 0.3.0
      *
      * @async
-     * @method downloads
-     * @desc Get downloads count for a given period (and eventually a given package).
+     * @function downloads
+     * @description Get downloads count for a given period (and eventually a given package).
      * @memberof Registry#
-     * @param {!String} packageName packageName
-     * @param {Object} [options] options
+     * @param {!string} packageName packageName
+     * @param {object} [options] options
      * @returns {Promise<Roster>}
      *
      * @throws {TypeError}
@@ -332,7 +334,8 @@ class Registry {
         }
 
         try {
-            const { data: body } = await get(`${this.api_url}/downloads/${type}/${period}/${packageName}`, { headers: this.headers });
+            const { data: body } = await get(
+                `${this.api_url}/downloads/${type}/${period}/${packageName}`, { headers: this.headers });
 
             return body;
         }

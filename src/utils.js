@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * @namespace utils
  */
@@ -8,11 +10,11 @@
  *
  * @function Clamp
  * @memberof utils#
- * @desc Clamp a given number into min and max
- * @param {!Number} property property
- * @param {Number} [min=0] min
- * @param {Number} [max=1] max
- * @returns {Number}
+ * @description Clamp a given number into min and max
+ * @param {!number} property property
+ * @param {number} [min=0] min
+ * @param {number} [max=1] max
+ * @returns {number}
  *
  * @throws {TypeError}
  *
