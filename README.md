@@ -18,7 +18,7 @@ API created to GET informations from the official [NPM API registry](https://git
 - Clean TypeScript definition
 
 ## Requirements
-- Node.js v10 or higher
+- [Node.js](https://nodejs.org/en/) v10 or higher
 
 ## Getting Started
 
