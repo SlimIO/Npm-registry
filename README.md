@@ -55,6 +55,13 @@ async function main() {
 main().catch(console.error);
 ```
 
+## Env required for testing
+
+```
+NPM_TOKEN=
+NPM_AUTH=
+```
+
 ## API
 
 ### Registry API

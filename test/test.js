@@ -116,14 +116,14 @@ ava("Find a given Package with login TypeError", async(assert) => {
     }, { instanceOf: Error, message: "auth param must be a typeof string" });
 });
 
-ava("Find a given Package with login AUTH", async(assert) => {
-    const reg = new Registry();
-    reg.login(process.env.NPM_AUTH);
-    const pkg = await reg.package("@slimio/error");
-    reg.logout();
+// ava("Find a given Package with login AUTH", async(assert) => {
+//     const reg = new Registry();
+//     reg.login(process.env.NPM_AUTH);
+//     const pkg = await reg.package("@slimio/bundler");
+//     reg.logout();
 
-    assert.true(pkg instanceof Package);
-});
+//     assert.true(pkg instanceof Package);
+// });
 
 ava("Find a given Package with login TOKEN", async(assert) => {
     const reg = new Registry();
