@@ -34,7 +34,7 @@ ava("Create a new Registry with a custom URL", (assert) => {
 ava("Registry constructor - url must be a string", (assert) => {
     const { message } = assert.throws(() => {
         new Registry(10);
-    }, TypeError);
+    }, { instanceOf: TypeError });
     assert.is(message, "url must be a string");
 });
 
@@ -184,21 +184,21 @@ ava("Search user package(s)", async(assert) => {
 ava("userPackages() => userName should be a string", async(assert) => {
     const reg = new Registry();
 
-    const error = await assert.throwsAsync(reg.userPackages(10), TypeError);
+    const error = await assert.throwsAsync(reg.userPackages(10), { instanceOf: TypeError });
     assert.is(error.message, "userName should be a string");
 });
 
 ava("Unknown user package(s)", async(assert) => {
     const reg = new Registry();
 
-    const error = await assert.throwsAsync(reg.userPackages(invalidePackageName), Error);
+    const error = await assert.throwsAsync(reg.userPackages(invalidePackageName), { instanceOf: Error });
     assert.is(error.message, "Not Found");
 });
 
 ava("Unknown Package", async(assert) => {
     const reg = new Registry();
 
-    const error = await assert.throwsAsync(reg.package(invalidePackageName), Error);
+    const error = await assert.throwsAsync(reg.package(invalidePackageName), { instanceOf: Error });
     assert.is(error.message, "Not Found");
 });
 
