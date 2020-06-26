@@ -10,7 +10,7 @@
 
 API created to GET informations from the official [NPM API registry](https://github.com/npm/registry/blob/master/docs/REGISTRY-API.md).
 
-> ⛔️ You may need to consider the following package before: [libnpm](https://github.com/npm/libnpm#readme)
+> ⛔️ You may need to consider the following package before: [pacote](https://github.com/npm/pacote#readme)
 
 ## Why ?
 - Retrieve complete informations (with no filtering).
