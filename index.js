@@ -11,6 +11,7 @@ const { clamp } = require("./src/utils");
 
 // CONSTANTS
 const E_DOWNLOAD_TYPE = new Set(["last-day", "last-week", "last-month"]);
+const REQ_TIMEOUT = 3_000;
 
 /**
  * @class Registry
@@ -120,7 +121,7 @@ class Registry {
      * main().catch(console.error);
      */
     async metaData() {
-        return (await get(this.url)).data;
+        return (await get(this.url, { timeout: REQ_TIMEOUT })).data;
     }
 
     /**
@@ -155,7 +156,10 @@ class Registry {
         const verDefined = is.string(version);
 
         try {
-            const { data: body } = await get(`${this.url}/${name}/${verDefined ? version : ""}`, { headers: this.headers });
+            const { data: body } = await get(`${this.url}/${name}/${verDefined ? version : ""}`, {
+                headers: this.headers,
+                timeout: REQ_TIMEOUT
+            });
 
             return verDefined ? new Version(body) : new Package(body);
         }
@@ -195,7 +199,10 @@ class Registry {
         }
 
         try {
-            const { data: body } = await get(`${this.url}/-/user/${userName}/package`, { headers: this.headers });
+            const { data: body } = await get(`${this.url}/-/user/${userName}/package`, {
+                headers: this.headers,
+                timeout: REQ_TIMEOUT
+            });
 
             return body;
         }
@@ -262,7 +269,7 @@ class Registry {
         }
 
         // Send the Query
-        return (await get(query.href, { headers: this.headers })).data;
+        return (await get(query.href, { headers: this.headers, timeout: REQ_TIMEOUT })).data;
     }
 
     /**
@@ -289,7 +296,10 @@ class Registry {
             if (is.string(auth)) {
                 headers.Authorization = `Basic ${auth.toString("base64")}`;
             }
-            const { data: body } = await get(`${this.url}/-/org/${scope}/user`, { headers: this.headers });
+            const { data: body } = await get(`${this.url}/-/org/${scope}/user`, {
+                headers: this.headers,
+                timeout: REQ_TIMEOUT
+            });
 
             return body;
         }
@@ -334,8 +344,10 @@ class Registry {
         }
 
         try {
-            const { data: body } = await get(
-                `${this.api_url}/downloads/${type}/${period}/${packageName}`, { headers: this.headers });
+            const { data: body } = await get(`${this.api_url}/downloads/${type}/${period}/${packageName}`, {
+                headers: this.headers,
+                timeout: REQ_TIMEOUT
+            });
 
             return body;
         }
