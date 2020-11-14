@@ -155,7 +155,7 @@ class Package {
      * @returns {string}
      */
     get author() {
-        return this[META].author;
+        return this[META]._npmUser || this[META].author || {};
     }
 
     /**
